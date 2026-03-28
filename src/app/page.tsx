@@ -35,22 +35,8 @@ export default function Home() {
     gsap.registerPlugin(ScrollTrigger);
     
     const ctx = gsap.context(() => {
-        const sections = gsap.utils.toArray('.warp-section');
-        sections.forEach((section: any) => {
-            gsap.fromTo(section, 
-                { opacity: 0, y: 100 },
-                { 
-                    opacity: 1, y: 0,
-                    duration: 1,
-                    scrollTrigger: {
-                        trigger: section,
-                        start: "top 90%",
-                        end: "top 30%",
-                        scrub: 1,
-                    }
-                }
-            );
-        });
+        // Simple entry for smooth feel without hiding content
+        gsap.set('.warp-section', { opacity: 1, y: 0 });
     }, containerRef);
 
     return () => ctx.revert();
@@ -62,33 +48,33 @@ export default function Home() {
       {/* 3D City Background - Persistent Atmosphere */}
       {mode && <City3D />}
 
-      {/* Futuristic HUD Overlay */}
+      {/* Futuristic HUD Overlay - Now with better safe-zone handling */}
       {mode && (
-        <div className="fixed inset-0 pointer-events-none z-50 p-6 md:p-12 flex flex-col justify-between mix-blend-difference">
-          <div className="flex justify-between items-start font-mono text-[10px] md:text-xs">
-            <div className="space-y-1">
+        <div className="fixed inset-0 pointer-events-none z-50 p-4 md:p-8 flex flex-col justify-between">
+          <div className="flex justify-between items-start font-mono text-[9px] md:text-xs">
+            <div className="space-y-1 bg-black/20 backdrop-blur-md p-3 rounded-lg border border-white/5">
               <div className="flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
+                <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
                 <span className="tracking-[0.4em] text-white">PROTO_ID: MUSKAN_01</span>
               </div>
-              <p className="opacity-60">DESIGNER // VISUAL_STRATEGIST</p>
+              <p className="opacity-60 text-[8px] md:text-[10px]">DESIGNER // VISUAL_STRATEGIST</p>
             </div>
             <div className="text-right">
-               <h1 className="text-4xl md:text-8xl font-black italic tracking-tighter text-shimmer">
+               <h1 className="text-3xl md:text-7xl font-black italic tracking-tighter text-shimmer leading-none">
                  MUSKAN
                </h1>
             </div>
           </div>
 
-          <div className="flex justify-between items-end font-mono text-[10px] md:text-xs">
-             <div className="max-w-xs space-y-2 opacity-60">
-                <div className="h-[1px] w-32 bg-white/20" />
-                <p>STATUS: PORTFOLIO_MODE_ACTIVE</p>
+          <div className="flex justify-between items-end font-mono text-[9px] md:text-xs">
+             <div className="max-w-xs space-y-2 opacity-60 bg-black/20 backdrop-blur-md p-3 rounded-lg border border-white/5">
+                <div className="h-[1px] w-24 bg-white/20" />
+                <p>STATUS: PORTFOLIO_ACTIVE</p>
                 <p>KOLKATA_COORDS: 22.57N | 88.36E</p>
              </div>
-             <div className="text-right flex flex-col items-end">
-                <div className="w-32 h-[1px] bg-white/10 mb-2" />
-                <p ref={scrollCounterRef} className="text-[24px] font-black tracking-tighter tabular-nums text-white">
+             <div className="text-right flex flex-col items-end p-3">
+                <div className="w-24 h-[1px] bg-white/10 mb-2" />
+                <p ref={scrollCounterRef} className="text-[20px] md:text-[32px] font-black tracking-tighter tabular-nums text-white text-shimmer">
                    000000
                 </p>
              </div>
@@ -97,31 +83,33 @@ export default function Home() {
       )}
 
       {/* Extreme overlay - Noise */}
-      <div className="fixed inset-0 pointer-events-none z-[100] opacity-[0.05] bg-[url('https://res.cloudinary.com/dzvxs72nx/image/upload/v1711617006/static/grain_overlay.png')] mix-blend-overlay" />
+      <div className="fixed inset-0 pointer-events-none z-[100] opacity-[0.03] bg-[url('https://res.cloudinary.com/dzvxs72nx/image/upload/v1711617006/static/grain_overlay.png')]" />
 
       {!mode ? (
         <Scene1Void onStart={(selectedMode) => {
-          window.scrollTo(0, 0); // Reset scroll on start
+          window.scrollTo(0, 0); 
           setMode(selectedMode);
         }} />
       ) : (
-        <div className="w-full relative z-10 transform-style-3d">
-          {/* We render the origin sequence only if the user chooses 'story' */}
-          {mode === 'story' && (
-            <div className="space-y-0">
-              <div className="warp-section"><Scene2Sketch /></div>
-              <div className="warp-section"><Scene3Dashboard /></div>
-              <div className="warp-section"><Scene4Glitch /></div>
-              <div className="warp-section"><Scene5AbstractFall /></div>
-            </div>
-          )}
+        <div className="w-full relative z-10 transform-style-3d px-6 md:px-32">
+          <div className="max-w-7xl mx-auto">
+            {/* We render the origin sequence only if the user chooses 'story' */}
+            {mode === 'story' && (
+              <div className="space-y-32 md:space-y-64 py-32">
+                <div className="warp-section"><Scene2Sketch /></div>
+                <div className="warp-section"><Scene3Dashboard /></div>
+                <div className="warp-section"><Scene4Glitch /></div>
+                <div className="warp-section"><Scene5AbstractFall /></div>
+              </div>
+            )}
 
-          {/* Quick mode users skip directly here, Story mode users flow naturally into here */}
-          <div className="space-y-0">
-            <div className="warp-section"><Scene6DesignWorld /></div>
-            <div className="warp-section"><Scene7Process /></div>
-            <div className="warp-section"><Scene8Clarity /></div>
-            <div className="warp-section"><Scene9Contact /></div>
+            {/* Quick mode users skip directly here, Story mode users flow naturally into here */}
+            <div className="space-y-32 md:space-y-64 py-32">
+              <div className="warp-section"><Scene6DesignWorld /></div>
+              <div className="warp-section"><Scene7Process /></div>
+              <div className="warp-section"><Scene8Clarity /></div>
+              <div className="warp-section"><Scene9Contact /></div>
+            </div>
           </div>
         </div>
       )}
