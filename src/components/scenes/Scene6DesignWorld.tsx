@@ -30,22 +30,23 @@ export default function Scene6DesignWorld() {
         scrollTrigger: {
           trigger: containerRef.current,
           start: "top top",
-          end: `+=${scrollWidth}`,
+          end: `+=${scrollWidth * 1.5}`, // Reduced from 2x (implicitly by scrollWidth) but enough for feel
           scrub: 1,
           pin: true,
           anticipatePin: 1,
         }
       });
       
-      // Card entrance animation
+      // Card entrance animation - Bolder and persistent
       gsap.from('.project-card', {
-        opacity: 0,
-        y: 100,
-        scale: 0.8,
+        opacity: 0.5,
+        y: 60,
+        scale: 0.9,
         stagger: 0.1,
         scrollTrigger: {
-          trigger: scrollContainerRef.current,
-          start: "top center",
+          trigger: containerRef.current,
+          start: "top 80%",
+          end: "top 20%",
           scrub: 1,
         }
       });
@@ -65,7 +66,7 @@ export default function Scene6DesignWorld() {
         </p>
       </div>
 
-      <div ref={scrollContainerRef} className="flex gap-20 px-[15vw] pt-24 h-[70vh] items-center z-10">
+      <div ref={scrollContainerRef} className="flex gap-16 md:gap-32 px-[5vw] pt-24 h-[70vh] items-center z-10">
         {projects.map((project, i) => (
           <div key={project.id} className="project-card relative group w-[75vw] md:w-[45vw] h-full flex-shrink-0 cursor-pointer perspective-2000">
             <div className={`absolute inset-0 rounded-3xl transition-all duration-700 ease-out transform-style-3d group-hover:rotate-y-12 group-hover:rotate-x-6 group-hover:scale-105 shadow-[0_0_50px_rgba(0,0,0,0.5)]`}>

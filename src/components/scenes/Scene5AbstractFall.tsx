@@ -24,23 +24,19 @@ export default function Scene5AbstractFall() {
         }
       });
 
-      // Tunnel effect placeholder
-      tl.to({}, { duration: 2 });
+      // tunnel effect placeholder removed for snappiness
 
       // Words falling up as we fall down
       tl.fromTo(words,
-        { y: '100vh', opacity: 0, scale: 0.5, rotationZ: () => Math.random() * 45 - 22.5 },
+        { y: '80vh', opacity: 0, scale: 0.5 },
         {
-          y: '-100vh', opacity: 1, scale: () => 1 + Math.random(),
-          rotationZ: () => Math.random() * 90 - 45,
-          duration: 3, stagger: 0.5, ease: 'power1.inOut'
-        },
-        "-=2"
+          y: '-80vh', opacity: 1, scale: () => 1.2 + Math.random(),
+          duration: 2, stagger: 0.3, ease: 'power1.inOut'
+        }
       );
 
       // Transform into a confident designer
-      tl.to(words, { opacity: 0, duration: 0.5 }, "-=1")
-        .fromTo('.transformation-text',
+      tl.fromTo('.transformation-text',
           { opacity: 0, scale: 0.8, filter: 'blur(10px)' },
           { opacity: 1, scale: 1, filter: 'blur(0px)', duration: 1, ease: 'power2.out' }
         );
