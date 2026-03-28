@@ -22,11 +22,13 @@ const Scene9Contact = dynamic(() => import('@/components/scenes/Scene9Contact'),
 
 export default function Home() {
   const [mode, setMode] = useState<'story' | 'quick' | null>(null);
+  const [scroll, setScroll] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
   const scrollCounterRef = useRef<HTMLParagraphElement>(null);
 
-  // High-performance scroll tracking for the HUD counter only
+  // Sync global scroll state for fixed narrative elements
   useLenis(({ scroll }) => {
+    setScroll(scroll);
     if (scrollCounterRef.current) {
       scrollCounterRef.current.innerText = Math.floor(scroll).toString().padStart(6, '0');
     }
@@ -36,7 +38,6 @@ export default function Home() {
     gsap.registerPlugin(ScrollTrigger);
     
     const ctx = gsap.context(() => {
-        // Simple entry for smooth feel without hiding content
         gsap.set('.warp-section', { opacity: 1, y: 0 });
     }, containerRef);
 
@@ -47,12 +48,20 @@ export default function Home() {
     <>
       <Cursor />
       
-      {/* Fixed Cinematic Layer - OUTSIDE the scrollable SmoothScroll wrapper */}
+      {/* Fixed Cinematic Layer - ALWAYS STATIONARY */}
       {mode && (
         <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden select-none">
            <City3D />
            
-           {/* Futuristic HUD Overlay - Persistent & Stationary */}
+           {/* Fixed Narrative Elements (Scene 2 & 3) */}
+           {mode === 'story' && (
+             <div className="absolute inset-0 z-10 pointer-events-none">
+                <Scene2Sketch scroll={scroll} />
+                <Scene3Dashboard scroll={scroll} />
+             </div>
+           )}
+           
+           {/* Futuristic HUD Overlay */}
            <div className="absolute inset-0 z-50 p-4 md:p-10 flex flex-col justify-between pointer-events-none">
               <div className="flex justify-between items-start font-mono text-[9px] md:text-xs">
                 <div className="space-y-1 bg-black/60 backdrop-blur-xl p-4 rounded-xl border border-white/20 shadow-2xl pointer-events-auto">
@@ -84,7 +93,6 @@ export default function Home() {
               </div>
            </div>
            
-           {/* Global Atmospheric Grain */}
            <div className="absolute inset-0 pointer-events-none z-[100] opacity-[0.05] bg-[url('https://res.cloudinary.com/dzvxs72nx/image/upload/v1711617006/static/grain_overlay.png')]" />
         </div>
       )}
@@ -100,11 +108,11 @@ export default function Home() {
           ) : (
             <div className="w-full relative z-10 transform-style-3d">
               <div className="w-full">
-                {/* Story Sequence */}
+                {/* Story Placeholder Sections to provide scroll length for fixed narrations */}
                 {mode === 'story' && (
                   <div className="flex flex-col">
-                    <div className="warp-section"><Scene2Sketch /></div>
-                    <div className="warp-section"><Scene3Dashboard /></div>
+                    <div id="story-trigger-2" className="h-[250vh] w-full border-t border-transparent" />
+                    <div id="story-trigger-3" className="h-[200vh] w-full border-t border-transparent" />
                     <div className="warp-section"><Scene4Glitch /></div>
                     <div className="warp-section"><Scene5AbstractFall /></div>
                   </div>

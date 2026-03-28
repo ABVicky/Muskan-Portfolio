@@ -1,91 +1,73 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
-export default function Scene3Dashboard() {
+const stats = [
+  { id: 1, label: 'Visual Strategy', value: 'High', icon: '🎨' },
+  { id: 2, label: 'UX Architecture', value: 'Solid', icon: '🏗️' },
+  { id: 3, label: 'Creative Direction', value: 'Lead', icon: '✨' },
+];
+
+export default function Scene3Dashboard({ scroll }: { scroll: number }) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const cardsRef = useRef<HTMLDivElement>(null);
+  
+  // Narrative Range (Matches placeholder in page.tsx)
+  const START = 2600;
+  const END = 4600;
+  const isActive = scroll >= START - 500 && scroll <= END + 500;
 
   useEffect(() => {
-    gsap.registerPlugin(ScrollTrigger);
+    if (!isActive || !containerRef.current) return;
+    
+    const progress = Math.max(0, Math.min(1, (scroll - START) / (END - START)));
+    
+    // Content Opacity (Peaks in the middle)
+    const opacity = progress < 0.1 ? progress * 10 : progress > 0.9 ? (1 - progress) * 10 : 1;
+    containerRef.current.style.opacity = Math.max(0, Math.min(1, opacity)).toString();
+    
+    // Animate cards based on progress
+    const cards = containerRef.current.querySelectorAll('.dashboard-card');
+    cards.forEach((card: any, i) => {
+      const cardProgress = Math.max(0, Math.min(1, (progress - (i * 0.15)) * 3));
+      card.style.opacity = Math.max(0, Math.min(1, cardProgress)).toString();
+      card.style.transform = `translateY(${(1 - Math.max(0, Math.min(1, cardProgress))) * 40}px) scale(${0.95 + Math.max(0, Math.min(1, cardProgress)) * 0.05})`;
+    });
 
-    const ctx = gsap.context(() => {
-      const cards = gsap.utils.toArray('.dash-card');
+  }, [scroll, isActive]);
 
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: "top top",
-          end: "+=150%",
-          scrub: 1,
-          pin: true,
-        }
-      });
-
-      // Cards appear and float up
-      tl.fromTo(cards,
-        { y: 100, opacity: 0, scale: 0.9, rotationX: 15 },
-        {
-          y: 0, opacity: 1, scale: 1, rotationX: 0,
-          duration: 1.5, stagger: 0.2, ease: "back.out(1.2)"
-        }
-      );
-    }, containerRef);
-
-    return () => ctx.revert();
-  }, []);
+  if (!isActive) return null;
 
   return (
-    <section ref={containerRef} className="h-screen w-full relative bg-transparent flex flex-col items-center justify-center overflow-hidden perspective-1000">
-
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.03)_0%,transparent_100%)] pointer-events-none" />
-
-      <h2 className="dash-card absolute top-24 text-3xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-gray-200 to-gray-500 tracking-tight">
-        Transformation
-      </h2>
-
-      <div ref={cardsRef} className="flex flex-col md:flex-row gap-6 md:gap-8 mt-16 z-10 px-6 w-full max-w-6xl justify-center">
-
-        {/* Education Card */}
-        <div className="dash-card flex-1 bg-white/5 backdrop-blur-xl border border-white/10 p-8 rounded-3xl hover:bg-white/10 transition-colors cursor-pointer group">
-          <div className="w-12 h-12 rounded-full bg-blue-500/20 flex items-center justify-center mb-6 border border-blue-500/30 group-hover:scale-110 transition-transform">
-            <span className="text-xl">🎓</span>
-          </div>
-          <h3 className="text-white font-medium text-xl mb-2">Education</h3>
-          <p className="text-gray-400 text-sm leading-relaxed">
-            Transitioning from traditional studies to full-scale digital creation and interactive media.
-          </p>
+    <div 
+      ref={containerRef} 
+      className="fixed inset-0 w-full h-full flex flex-col items-center justify-center p-6 md:p-32 transition-opacity duration-300 pointer-events-none"
+      style={{ opacity: 0 }}
+    >
+      <div className="max-w-7xl mx-auto w-full">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-12 w-full pointer-events-auto">
+          {stats.map((stat) => (
+            <div 
+              key={stat.id} 
+              className="dashboard-card glass-panel p-8 rounded-3xl relative overflow-hidden group hover:border-white/20 transition-all duration-500 shadow-2xl"
+              style={{ opacity: 0 }}
+            >
+              <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-30 transition-opacity">
+                <span className="text-4xl">{stat.icon}</span>
+              </div>
+              
+              <h3 className="text-white/40 font-mono text-xs mb-2 tracking-widest uppercase">{stat.label}</h3>
+              <p className="text-white text-4xl md:text-6xl font-black italic tracking-tighter mb-4">{stat.value}</p>
+              
+              <div className="space-y-2">
+                <div className="h-1 w-full bg-white/5 rounded-full overflow-hidden">
+                   <div className="h-full bg-cyan-400 w-3/4 animate-[shimmer_2s_infinite]" />
+                </div>
+                <p className="text-[10px] text-gray-500 font-mono uppercase tracking-widest">Efficiency: OPTIMIZED</p>
+              </div>
+            </div>
+          ))}
         </div>
-
-        {/* Skills Card */}
-        <div className="dash-card flex-1 bg-white/5 backdrop-blur-xl border border-white/10 p-8 rounded-3xl hover:bg-white/10 transition-colors cursor-pointer group">
-          <div className="w-12 h-12 rounded-full bg-purple-500/20 flex items-center justify-center mb-6 border border-purple-500/30 group-hover:scale-110 transition-transform">
-            <span className="text-xl">🛠️</span>
-          </div>
-          <h3 className="text-white font-medium text-xl mb-2">Skills Found</h3>
-          <div className="flex flex-wrap gap-2 mt-4">
-            {['UI/UX', 'Figma', 'Prototyping', 'Visual Design'].map(skill => (
-              <span key={skill} className="px-3 py-1 bg-white/5 rounded-full text-xs text-gray-300 border border-white/5">
-                {skill}
-              </span>
-            ))}
-          </div>
-        </div>
-
-        {/* Achievements Card */}
-        <div className="dash-card flex-1 bg-white/5 backdrop-blur-xl border border-white/10 p-8 rounded-3xl hover:bg-white/10 transition-colors cursor-pointer group">
-          <div className="w-12 h-12 rounded-full bg-emerald-500/20 flex items-center justify-center mb-6 border border-emerald-500/30 group-hover:scale-110 transition-transform">
-            <span className="text-xl">🏆</span>
-          </div>
-          <h3 className="text-white font-medium text-xl mb-2">3+ Years</h3>
-          <p className="text-gray-400 text-sm leading-relaxed">
-            Consistently delivering high-impact designs, evolving from simple interfaces to immersive experiences.
-          </p>
-        </div>
-
       </div>
-    </section>
+    </div>
   );
 }

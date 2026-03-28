@@ -4,55 +4,45 @@ import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
-export default function Scene2Sketch() {
+export default function Scene2Sketch({ scroll }: { scroll: number }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const textRef = useRef<HTMLHeadingElement>(null);
   const pathsRef = useRef<SVGGElement>(null);
 
+  // Narrative Range for Scene 2 (Adjusted to match placeholder in page.tsx)
+  const START = 600; 
+  const END = 2600; 
+  const isActive = scroll >= START - 500 && scroll <= END + 500;
+
   useEffect(() => {
-    gsap.registerPlugin(ScrollTrigger);
+    if (!isActive) return;
 
-    const ctx = gsap.context(() => {
-      const paths = pathsRef.current?.querySelectorAll('path') || [];
+    const paths = pathsRef.current?.querySelectorAll('path') || [];
+    const progress = Math.max(0, Math.min(1, (scroll - START) / (END - START)));
+    
+    // Draw paths based on scroll progress
+    paths.forEach((path: any) => {
+      const length = path.getTotalLength();
+      path.style.strokeDasharray = `${length}`;
+      path.style.strokeDashoffset = `${length * (1 - progress * 1.5)}`; // Multiply by 1.5 for faster drawing
+    });
 
-      // Calculate path lengths for drawing effect
-      paths.forEach((path) => {
-        const length = path.getTotalLength();
-        path.style.strokeDasharray = `${length}`;
-        path.style.strokeDashoffset = `${length}`;
-      });
+    // Content Opacity (Peaks in the middle)
+    const contentOpacity = progress < 0.1 ? progress * 10 : progress > 0.9 ? (1 - progress) * 10 : 1;
+    if (containerRef.current) {
+      containerRef.current.style.opacity = Math.max(0, Math.min(1, contentOpacity)).toString();
+    }
+  }, [scroll, isActive]);
 
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: "top top",
-          end: "+=150%",
-          scrub: 1,
-          pin: true,
-        }
-      });
-
-      tl.to(paths, {
-        strokeDashoffset: 0,
-        duration: 2,
-        ease: "power2.out",
-        stagger: 0.1
-      })
-        .fromTo(
-          textRef.current,
-          { opacity: 0, y: 30 },
-          { opacity: 1, y: 0, duration: 1 },
-          "-=0.5"
-        )
-        .to({}, { duration: 0.5 }); // padding at the end
-    }, containerRef);
-
-    return () => ctx.revert();
-  }, []);
+  if (!isActive) return null;
 
   return (
-    <section ref={containerRef} className="h-screen w-full relative bg-transparent flex flex-col items-center justify-center overflow-hidden">
-      <div className="absolute inset-0 opacity-10 pointer-events-none" style={{ backgroundImage: 'radial-gradient(#fff 1px, transparent 1px)', backgroundSize: '20px 20px' }} />
+    <div 
+      ref={containerRef} 
+      className="fixed inset-0 w-full h-full flex flex-col items-center justify-center pointer-events-none transition-opacity duration-500"
+      style={{ opacity: 0 }}
+    >
+      <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(#fff 1px, transparent 1px)', backgroundSize: '20px 20px' }} />
 
       <svg
         width="600" height="600" viewBox="0 0 100 100"
@@ -68,10 +58,10 @@ export default function Scene2Sketch() {
       </svg>
 
       <div className="absolute bottom-24 text-center z-20">
-         <h2 ref={textRef} className="text-white text-3xl md:text-5xl font-black italic tracking-tighter uppercase leading-tight opacity-0">
+         <h2 ref={textRef} className="text-white text-3xl md:text-5xl font-black italic tracking-tighter uppercase leading-tight drop-shadow-2xl">
             Constructing <br/> <span className="text-cyan-400">Digital Realities</span>
          </h2>
       </div>
-    </section>
+    </div>
   );
 }
