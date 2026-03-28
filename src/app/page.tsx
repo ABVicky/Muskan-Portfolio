@@ -57,13 +57,13 @@ export default function Home() {
                 <div className="space-y-1 bg-black/40 backdrop-blur-md p-3 rounded-lg border border-white/10 shadow-2xl pointer-events-auto">
                   <div className="flex items-center gap-2">
                     <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
-                    <span className="tracking-[0.4em] text-white font-black">PROTO_ID: MUSKAN_01</span>
+                    <span className="tracking-[0.4em] text-white font-black">PROTO_ID: MUS_BHARTI_01</span>
                   </div>
-                  <p className="opacity-70 text-[8px] md:text-[10px] text-cyan-100">DESIGNER // VISUAL_STRATEGIST</p>
+                  <p className="opacity-70 text-[8px] md:text-[10px] text-cyan-100 uppercase tracking-widest">Graphic Designer // 3+ YRS Experience</p>
                 </div>
                 <div className="text-right pointer-events-auto">
                    <h1 className="text-3xl md:text-7xl font-black italic tracking-tighter text-shimmer leading-none drop-shadow-2xl">
-                     MUSKAN
+                     MUSKAN BHARTI
                    </h1>
                 </div>
               </div>

@@ -48,7 +48,7 @@ export default function Scene9Contact() {
 
       <footer className="w-full flex flex-col md:flex-row justify-between items-center gap-8 pt-12 border-t border-white/5 z-10 mx-auto max-w-7xl mt-20 font-mono text-[10px] uppercase tracking-[0.5em] opacity-40">
         <p>
-          [ STATUS: READY ] · © {new Date().getFullYear()} MUSKAN_KOLKATA
+          [ STATUS: READY ] · © {new Date().getFullYear()} MUSKAN_BHARTI · [ POWERED_BY_MANIKARNIKA ]
         </p>
         
         <div className="flex gap-10">
