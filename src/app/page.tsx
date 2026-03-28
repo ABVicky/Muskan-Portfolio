@@ -91,11 +91,11 @@ export default function Home() {
           setMode(selectedMode);
         }} />
       ) : (
-        <div className="w-full relative z-10 transform-style-3d px-6 md:px-32">
-          <div className="max-w-7xl mx-auto">
+        <div className="w-full relative z-10 transform-style-3d">
+          <div className="w-full">
             {/* We render the origin sequence only if the user chooses 'story' */}
             {mode === 'story' && (
-              <div className="space-y-32 md:space-y-64 py-32">
+              <div className="flex flex-col">
                 <div className="warp-section"><Scene2Sketch /></div>
                 <div className="warp-section"><Scene3Dashboard /></div>
                 <div className="warp-section"><Scene4Glitch /></div>
@@ -104,7 +104,7 @@ export default function Home() {
             )}
 
             {/* Quick mode users skip directly here, Story mode users flow naturally into here */}
-            <div className="space-y-32 md:space-y-64 py-32">
+            <div className="flex flex-col">
               <div className="warp-section"><Scene6DesignWorld /></div>
               <div className="warp-section"><Scene7Process /></div>
               <div className="warp-section"><Scene8Clarity /></div>

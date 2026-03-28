@@ -55,11 +55,11 @@ export default function Scene2Sketch() {
       <div className="absolute inset-0 opacity-10 pointer-events-none" style={{ backgroundImage: 'radial-gradient(#fff 1px, transparent 1px)', backgroundSize: '20px 20px' }} />
 
       <svg
-        width="240" height="240" viewBox="0 0 100 100"
-        className="stroke-white fill-transparent relative z-10"
-        style={{ strokeWidth: 1.5, filter: 'drop-shadow(0 0 10px rgba(255,255,255,0.3))' }}
+        width="600" height="600" viewBox="0 0 100 100"
+        className="stroke-white fill-transparent relative z-10 transform-style-3d drop-shadow-[0_0_30px_rgba(255,255,255,0.4)]"
+        style={{ strokeWidth: 0.8 }}
       >
-        <g ref={pathsRef}>
+        <g ref={pathsRef} className="animate-glow-breath">
           <path d="M10 50 L50 15 L90 50" strokeLinecap="round" strokeLinejoin="round" />
           <path d="M20 50 L20 85 L80 85 L80 50" strokeLinecap="round" strokeLinejoin="round" />
           <path d="M40 85 L40 60 L60 60 L60 85" strokeLinecap="round" strokeLinejoin="round" />
@@ -67,7 +67,11 @@ export default function Scene2Sketch() {
         </g>
       </svg>
 
-      {/* Redundant branding removed to avoid HUD overlap */}
+      <div className="absolute bottom-24 text-center z-20">
+         <h2 ref={textRef} className="text-white text-3xl md:text-5xl font-black italic tracking-tighter uppercase leading-tight opacity-0">
+            Constructing <br/> <span className="text-cyan-400">Digital Realities</span>
+         </h2>
+      </div>
     </section>
   );
 }
