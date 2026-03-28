@@ -7,6 +7,7 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 import Cursor from '@/components/Cursor';
+import SmoothScroll from '@/components/SmoothScroll';
 
 const City3D = dynamic(() => import('@/components/City3D'), { ssr: false });
 const Scene1Void = dynamic(() => import('@/components/scenes/Scene1Void'), { ssr: false });
@@ -46,79 +47,81 @@ export default function Home() {
     <>
       <Cursor />
       
-      {/* Cinematic Layer - TRULY FIXED Background and HUD */}
+      {/* Fixed Cinematic Layer - OUTSIDE the scrollable SmoothScroll wrapper */}
       {mode && (
-        <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
+        <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden select-none">
            <City3D />
            
-           {/* Futuristic HUD Overlay - High Contrast */}
-           <div className="absolute inset-0 z-50 p-4 md:p-8 flex flex-col justify-between pointer-events-none">
+           {/* Futuristic HUD Overlay - Persistent & Stationary */}
+           <div className="absolute inset-0 z-50 p-4 md:p-10 flex flex-col justify-between pointer-events-none">
               <div className="flex justify-between items-start font-mono text-[9px] md:text-xs">
-                <div className="space-y-1 bg-black/40 backdrop-blur-md p-3 rounded-lg border border-white/10 shadow-2xl pointer-events-auto">
+                <div className="space-y-1 bg-black/60 backdrop-blur-xl p-4 rounded-xl border border-white/20 shadow-2xl pointer-events-auto">
                   <div className="flex items-center gap-2">
                     <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
-                    <span className="tracking-[0.4em] text-white font-black">PROTO_ID: MUS_BHARTI_01</span>
+                    <span className="tracking-[0.5em] text-white font-black">PROTO_ID: MUSKAN_01</span>
                   </div>
-                  <p className="opacity-70 text-[8px] md:text-[10px] text-cyan-100 uppercase tracking-widest">Graphic Designer // 3+ YRS Experience</p>
+                  <p className="opacity-80 text-[8px] md:text-[10px] text-cyan-300">SYSTEMS INITIALIZED // VISUAL_ENGINE</p>
                 </div>
                 <div className="text-right pointer-events-auto">
-                   <h1 className="text-3xl md:text-7xl font-black italic tracking-tighter text-shimmer leading-none drop-shadow-2xl">
-                     MUSKAN BHARTI
+                   <h1 className="text-4xl md:text-8xl font-black italic tracking-tighter text-shimmer leading-none drop-shadow-2xl">
+                     MUSKAN
                    </h1>
                 </div>
               </div>
 
               <div className="flex justify-between items-end font-mono text-[9px] md:text-xs">
-                 <div className="max-w-xs space-y-2 opacity-80 bg-black/40 backdrop-blur-md p-3 rounded-lg border border-white/10 shadow-2xl pointer-events-auto">
-                    <div className="h-[1px] w-24 bg-cyan-400/30" />
-                    <p className="text-white">STATUS: <span className="text-emerald-400">ACTIVE</span></p>
-                    <p className="text-white">COORDS: 22.57N | 88.36E</p>
+                 <div className="max-w-xs space-y-2 bg-black/60 backdrop-blur-xl p-4 rounded-xl border border-white/20 shadow-2xl pointer-events-auto">
+                    <div className="h-[1px] w-28 bg-cyan-400/40" />
+                    <p className="text-white tracking-widest"><span className="text-emerald-500">LIVE:</span> PORTFOLIO_V2.0</p>
+                    <p className="text-white">KOLKATA_NET: 22.57N | 88.36E</p>
                  </div>
-                 <div className="text-right flex flex-col items-end p-3 pointer-events-auto">
-                    <div className="w-24 h-[1px] bg-white/20 mb-2" />
-                    <p ref={scrollCounterRef} className="text-[20px] md:text-[40px] font-black tracking-tighter tabular-nums text-white text-shimmer drop-shadow-2xl">
+                 <div className="text-right flex flex-col items-end pointer-events-auto">
+                    <div className="w-28 h-[1px] bg-white/30 mb-2" />
+                    <p ref={scrollCounterRef} className="text-[24px] md:text-[52px] font-black tracking-tighter tabular-nums text-white text-shimmer leading-none">
                        000000
                     </p>
                  </div>
               </div>
            </div>
            
-           {/* Grain and Noise Layer */}
-           <div className="absolute inset-0 pointer-events-none z-[100] opacity-[0.04] bg-[url('https://res.cloudinary.com/dzvxs72nx/image/upload/v1711617006/static/grain_overlay.png')]" />
+           {/* Global Atmospheric Grain */}
+           <div className="absolute inset-0 pointer-events-none z-[100] opacity-[0.05] bg-[url('https://res.cloudinary.com/dzvxs72nx/image/upload/v1711617006/static/grain_overlay.png')]" />
         </div>
       )}
 
-      {/* Scrollable Content Layer */}
-      <main ref={containerRef} className="text-white selection:bg-white selection:text-black overflow-x-hidden scanlines min-h-screen">
-        {!mode ? (
-          <Scene1Void onStart={(selectedMode) => {
-            window.scrollTo(0, 0); 
-            setMode(selectedMode);
-          }} />
-        ) : (
-          <div className="w-full relative z-10 transform-style-3d">
-            <div className="w-full">
-              {/* We render the origin sequence only if the user chooses 'story' */}
-              {mode === 'story' && (
-                <div className="flex flex-col">
-                  <div className="warp-section"><Scene2Sketch /></div>
-                  <div className="warp-section"><Scene3Dashboard /></div>
-                  <div className="warp-section"><Scene4Glitch /></div>
-                  <div className="warp-section"><Scene5AbstractFall /></div>
-                </div>
-              )}
+      {/* Wrapped Scrollable Content - Only this part uses smooth scroll */}
+      <SmoothScroll>
+        <main ref={containerRef} className="text-white selection:bg-white selection:text-black overflow-x-hidden scanlines min-h-screen">
+          {!mode ? (
+            <Scene1Void onStart={(selectedMode) => {
+              window.scrollTo(0, 0); 
+              setMode(selectedMode);
+            }} />
+          ) : (
+            <div className="w-full relative z-10 transform-style-3d">
+              <div className="w-full">
+                {/* Story Sequence */}
+                {mode === 'story' && (
+                  <div className="flex flex-col">
+                    <div className="warp-section"><Scene2Sketch /></div>
+                    <div className="warp-section"><Scene3Dashboard /></div>
+                    <div className="warp-section"><Scene4Glitch /></div>
+                    <div className="warp-section"><Scene5AbstractFall /></div>
+                  </div>
+                )}
 
-              {/* Quick mode users skip directly here, Story mode users flow naturally into here */}
-              <div className="flex flex-col">
-                <div className="warp-section"><Scene6DesignWorld /></div>
-                <div className="warp-section"><Scene7Process /></div>
-                <div className="warp-section"><Scene8Clarity /></div>
-                <div className="warp-section"><Scene9Contact /></div>
+                {/* Main Works Section */}
+                <div className="flex flex-col">
+                  <div className="warp-section"><Scene6DesignWorld /></div>
+                  <div className="warp-section"><Scene7Process /></div>
+                  <div className="warp-section"><Scene8Clarity /></div>
+                  <div className="warp-section"><Scene9Contact /></div>
+                </div>
               </div>
             </div>
-          </div>
-        )}
-      </main>
+          )}
+        </main>
+      </SmoothScroll>
     </>
   );
 }
