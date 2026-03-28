@@ -167,7 +167,8 @@ function CityContent({ scrollRef }: { scrollRef: React.MutableRefObject<number> 
         groupRef.current.children.forEach((child: any) => {
             if (child.userData.type === 'layer') {
                 const range = 800;
-                let z = (child.userData.initialZ + scrollRef.current * 0.22) % range;
+                // Increased scroll factor from 0.22 to 0.45 for more dramatic movement
+                let z = (child.userData.initialZ + scrollRef.current * 0.45) % range;
                 if (z > 0) z -= range;
                 child.position.z = z;
                 child.visible = z > -range + 10 && z < -5;

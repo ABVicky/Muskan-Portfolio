@@ -23,6 +23,7 @@ const Scene9Contact = dynamic(() => import('@/components/scenes/Scene9Contact'),
 export default function Home() {
   const [mode, setMode] = useState<'story' | 'quick' | null>(null);
   const [scroll, setScroll] = useState(0);
+  const [mounted, setMounted] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const scrollCounterRef = useRef<HTMLParagraphElement>(null);
 
@@ -35,14 +36,48 @@ export default function Home() {
   });
 
   useEffect(() => {
+    setMounted(true);
     gsap.registerPlugin(ScrollTrigger);
-    
-    const ctx = gsap.context(() => {
-        gsap.set('.warp-section', { opacity: 1, y: 0 });
-    }, containerRef);
+  }, []);
 
-    return () => ctx.revert();
-  }, [mode]);
+  useEffect(() => {
+    if (!mounted || !mode) return;
+
+    // Small delay to ensure dynamic components are in the DOM
+    const timer = setTimeout(() => {
+      const ctx = gsap.context(() => {
+          gsap.set('.warp-section', { opacity: 0, y: 30 });
+          gsap.to('.warp-section', { 
+            opacity: 1, 
+            y: 0, 
+            duration: 1, 
+            stagger: 0.2,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: containerRef.current,
+              start: "top center",
+            },
+            onComplete: () => {
+              // Vital: Clear transform to allow CSS 'position: fixed' (pinning) to work relative to viewport
+              gsap.set('.warp-section', { clearProps: "transform" });
+              ScrollTrigger.refresh();
+            }
+          });
+      }, containerRef);
+      return () => ctx.revert();
+    }, 250); 
+
+    // Global Refresh after all dynamic components handle their own initializations
+    const globalRefresh = setTimeout(() => {
+      ScrollTrigger.refresh();
+      console.log("Global ScrollTrigger Refresh Triggered");
+    }, 1500);
+
+    return () => {
+      clearTimeout(timer);
+      clearTimeout(globalRefresh);
+    };
+  }, [mode, mounted]);
 
   return (
     <>
@@ -63,30 +98,30 @@ export default function Home() {
            
            {/* Futuristic HUD Overlay */}
            <div className="absolute inset-0 z-50 p-4 md:p-10 flex flex-col justify-between pointer-events-none">
-              <div className="flex justify-between items-start font-mono text-[9px] md:text-xs">
-                <div className="space-y-1 bg-black/60 backdrop-blur-xl p-4 rounded-xl border border-white/20 shadow-2xl pointer-events-auto">
+              <div className="flex justify-between items-start font-mono text-[8px] md:text-xs">
+                <div className="space-y-1 bg-black/80 backdrop-blur-3xl p-3 md:p-4 rounded-xl border border-white/20 shadow-2xl pointer-events-auto">
                   <div className="flex items-center gap-2">
                     <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
-                    <span className="tracking-[0.5em] text-white font-black">PROTO_ID: MUSKAN_01</span>
+                    <span className="tracking-[0.5em] text-white font-black">PROTO_ID: MB_X3_2026</span>
                   </div>
-                  <p className="opacity-80 text-[8px] md:text-[10px] text-cyan-300">SYSTEMS INITIALIZED // VISUAL_ENGINE</p>
+                  <p className="opacity-80 text-[7px] md:text-[10px] text-cyan-300">SYSTEMS INITIALIZED // VISUAL_ENGINE</p>
                 </div>
                 <div className="text-right pointer-events-auto">
-                   <h1 className="text-4xl md:text-8xl font-black italic tracking-tighter text-shimmer leading-none drop-shadow-2xl">
-                     MUSKAN
+                   <h1 className="text-[clamp(2rem,12vw,7rem)] font-black italic tracking-tighter text-white leading-none drop-shadow-2xl selection:bg-cyan-500">
+                     MUSKAN BHARTI
                    </h1>
                 </div>
               </div>
 
-              <div className="flex justify-between items-end font-mono text-[9px] md:text-xs">
-                 <div className="max-w-xs space-y-2 bg-black/60 backdrop-blur-xl p-4 rounded-xl border border-white/20 shadow-2xl pointer-events-auto">
-                    <div className="h-[1px] w-28 bg-cyan-400/40" />
-                    <p className="text-white tracking-widest"><span className="text-emerald-500">LIVE:</span> PORTFOLIO_V2.0</p>
-                    <p className="text-white">KOLKATA_NET: 22.57N | 88.36E</p>
+              <div className="flex justify-between items-end font-mono text-[8px] md:text-xs">
+                 <div className="max-w-[120px] md:max-w-xs space-y-2 bg-black/80 backdrop-blur-3xl p-3 md:p-4 rounded-xl border border-white/20 shadow-2xl pointer-events-auto">
+                    <div className="h-[1px] w-full md:w-28 bg-cyan-400/40" />
+                    <p className="text-white tracking-widest leading-tight"><span className="text-emerald-500">LIVE:</span> PORTFOLIO_V3.0</p>
+                    <p className="text-white/60">KOLKATA_NET: 22.57N | 88.36E</p>
                  </div>
                  <div className="text-right flex flex-col items-end pointer-events-auto">
-                    <div className="w-28 h-[1px] bg-white/30 mb-2" />
-                    <p ref={scrollCounterRef} className="text-[24px] md:text-[52px] font-black tracking-tighter tabular-nums text-white text-shimmer leading-none">
+                    <div className="w-16 md:w-28 h-[1px] bg-white/30 mb-2" />
+                    <p ref={scrollCounterRef} className="text-[20px] md:text-[52px] font-black tracking-tighter tabular-nums text-white leading-none drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]">
                        000000
                     </p>
                  </div>

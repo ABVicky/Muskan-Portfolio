@@ -21,25 +21,32 @@ export default function Scene7Process() {
     gsap.registerPlugin(ScrollTrigger);
 
     const ctx = gsap.context(() => {
-      const stepElements = gsap.utils.toArray('.process-step');
+      // Use a timeout to ensure preceding pinned sections (Scene 6) have calculated their spacers
+      const timer = setTimeout(() => {
+        const stepElements = gsap.utils.toArray('.process-step');
 
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: "top top",
-          end: "+=200%",
-          scrub: 1,
-          pin: true,
-          onUpdate: (self) => {
-            const index = Math.min(Math.floor(self.progress * steps.length), steps.length - 1);
-            setActiveStep(index);
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: "top top",
+            end: "+=200%",
+            scrub: 1,
+            pin: true,
+            invalidateOnRefresh: true,
+            onUpdate: (self) => {
+              const index = Math.min(Math.floor(self.progress * steps.length), steps.length - 1);
+              setActiveStep(index);
+            }
           }
-        }
-      });
+        });
 
-      // Simple parallax on the list container
-      tl.to(stepsContainerRef.current, { y: -200, duration: 1 });
+        // Parallax on the list container
+        tl.to(stepsContainerRef.current, { y: -200, duration: 1 });
+        
+        ScrollTrigger.refresh();
+      }, 750); // Matching/Exceeding Scene 6 stabilization
 
+      return () => clearTimeout(timer);
     }, containerRef);
 
     return () => ctx.revert();

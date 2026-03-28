@@ -11,7 +11,7 @@ export default function Scene9Contact() {
 
       <div className="flex-1 flex flex-col justify-center max-w-7xl mx-auto w-full z-10 transform-style-3d">
         <div className="group relative bg-white/5 backdrop-blur-3xl border border-white/10 p-12 md:p-20 rounded-[4rem] shadow-[0_50px_100px_rgba(0,0,0,0.8)] transition-all duration-1000 hover:rotate-x-2 hover:rotate-y-2 hover:shadow-blue-500/10 active:scale-95">
-          <h2 className="text-5xl md:text-9xl font-black uppercase tracking-tighter mb-8 leading-[0.8] mix-blend-difference">
+          <h2 className="text-[clamp(2.5rem,15vw,8rem)] font-black uppercase tracking-tighter mb-8 leading-[0.85] mix-blend-difference">
             Next Level <br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-cyan-400 to-emerald-400">
               Starts Here
@@ -47,9 +47,17 @@ export default function Scene9Contact() {
       </div>
 
       <footer className="w-full flex flex-col md:flex-row justify-between items-center gap-8 pt-12 border-t border-white/5 z-10 mx-auto max-w-7xl mt-20 font-mono text-[10px] uppercase tracking-[0.5em] opacity-40">
-        <p>
-          [ STATUS: READY ] · © {new Date().getFullYear()} MUSKAN_KOLKATA
-        </p>
+        <div className="flex flex-col gap-2 items-center md:items-start">
+          <p>[ STATUS: READY ] · © {new Date().getFullYear()} MUSKAN BHARTI</p>
+          <a 
+            href="https://abvicky.in" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="text-[10px] font-black tracking-[0.8em] text-cyan-400 drop-shadow-[0_0_10px_rgba(34,211,238,0.5)] animate-pulse transition-all duration-300 hover:brightness-150 hover:drop-shadow-[0_0_15px_rgba(34,211,238,0.8)] cursor-pointer no-underline border-none outline-none"
+          >
+            POWERED BY MANIKARNIKA
+          </a>
+        </div>
         
         <div className="flex gap-10">
           {[

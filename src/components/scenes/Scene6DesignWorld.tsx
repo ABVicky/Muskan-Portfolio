@@ -21,35 +21,49 @@ export default function Scene6DesignWorld() {
     gsap.registerPlugin(ScrollTrigger);
 
     const ctx = gsap.context(() => {
-      const scrollWidth = scrollContainerRef.current?.scrollWidth || 0;
-      const windowWidth = window.innerWidth;
+      // Use a timeout to ensure all DOM elements are rendered
+      const refreshScroll = () => {
+        const scrollWidth = scrollContainerRef.current?.scrollWidth || 0;
+        const windowWidth = window.innerWidth;
+        
+        if (scrollWidth === 0) return;
 
-      gsap.to(scrollContainerRef.current, {
-        x: -(scrollWidth - windowWidth),
-        ease: "none",
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: "top top",
-          end: `+=${scrollWidth * 1.5}`, // Reduced from 2x (implicitly by scrollWidth) but enough for feel
-          scrub: 1,
-          pin: true,
-          anticipatePin: 1,
-        }
-      });
-      
-      // Card entrance animation - Bolder and persistent
-      gsap.from('.project-card', {
-        opacity: 0.5,
-        y: 60,
-        scale: 0.9,
-        stagger: 0.1,
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: "top 80%",
-          end: "top 20%",
-          scrub: 1,
-        }
-      });
+        gsap.to(scrollContainerRef.current, {
+          x: -(scrollWidth - windowWidth),
+          ease: "none",
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: "top top",
+            end: `+=${scrollWidth}`, 
+            scrub: 1,
+            pin: true,
+            anticipatePin: 1,
+            invalidateOnRefresh: true,
+          }
+        });
+        
+        // Card entrance animation
+        gsap.from('.project-card', {
+          opacity: 0,
+          y: 60,
+          scale: 0.9,
+          stagger: 0.1,
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: "top 80%",
+            end: "top 20%",
+            scrub: 1,
+          }
+        });
+      };
+
+      // Initial call with a slight delay
+      const timer = setTimeout(() => {
+        refreshScroll();
+        ScrollTrigger.refresh();
+      }, 500);
+
+      return () => clearTimeout(timer);
     }, containerRef);
 
     return () => ctx.revert();

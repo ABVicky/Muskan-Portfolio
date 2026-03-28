@@ -3,9 +3,9 @@
 import { useEffect, useRef } from 'react';
 
 const stats = [
-  { id: 1, label: 'Visual Strategy', value: 'High', icon: '🎨' },
-  { id: 2, label: 'UX Architecture', value: 'Solid', icon: '🏗️' },
-  { id: 3, label: 'Creative Direction', value: 'Lead', icon: '✨' },
+  { id: 1, label: 'Graphic Design', value: 'PRO', icon: '🎨' },
+  { id: 2, label: 'Industry Exp', value: '3 YRS', icon: '⚡' },
+  { id: 3, label: 'Creative Depth', value: 'MAX', icon: '✨' },
 ];
 
 export default function Scene3Dashboard({ scroll }: { scroll: number }) {

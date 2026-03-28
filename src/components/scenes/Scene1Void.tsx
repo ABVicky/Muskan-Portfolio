@@ -45,34 +45,35 @@ export default function Scene1Void({ onStart }: Scene1Props) {
   const handleStart = (mode: 'story' | 'quick') => {
     setIsTransitioning(true);
     
-    // Intense Glitch Sequence before starting
+    const isQuick = mode === 'quick';
     const tl = gsap.timeline({
       onComplete: () => onStart(mode)
     });
 
+    // Intro Glitch Sequence
     tl.to(containerRef.current, {
-       duration: 0.1,
+       duration: isQuick ? 0.05 : 0.1,
        filter: 'invert(1) hue-rotate(90deg) contrast(200%)',
-       x: 10,
+       x: 15,
        skewX: 10
     })
     .to(containerRef.current, {
-       duration: 0.1,
+       duration: isQuick ? 0.05 : 0.1,
        filter: 'none',
-       x: -10,
+       x: -15,
        skewX: -10
     })
     .to(containerRef.current, {
-       duration: 0.05,
+       duration: isQuick ? 0.05 : 0.1,
        filter: 'contrast(500%) sepia(1)',
-       scale: 1.1
+       scale: 1.12
     })
     .to(containerRef.current, {
-       duration: 0.5,
+       duration: isQuick ? 0.2 : 0.5,
        opacity: 0,
-       scale: 2,
-       filter: 'blur(50px)',
-       ease: "power4.in"
+       scale: 1.5,
+       filter: 'blur(30px)',
+       ease: isQuick ? "expo.out" : "power4.in"
     });
   };
 
