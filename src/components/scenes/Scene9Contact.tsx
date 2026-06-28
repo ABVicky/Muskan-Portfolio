@@ -1,6 +1,6 @@
 'use client';
 
-import { Mail, ArrowUpRight, Github, Linkedin, Dribbble } from 'lucide-react';
+import { Mail, ArrowUpRight, Github, Linkedin, Dribbble, Instagram } from 'lucide-react';
 
 export default function Scene9Contact() {
   return (
@@ -24,7 +24,7 @@ export default function Scene9Contact() {
 
           <div className="flex flex-col md:flex-row gap-6 md:gap-8">
             <a 
-              href="mailto:hello@example.com" 
+              href="mailto:muskanbharti65124@gmail.com" 
               className="group/btn relative overflow-hidden bg-white text-black px-6 py-4 md:px-12 md:py-6 rounded-full font-black text-base md:text-xl hover:scale-105 transition-all duration-500 shadow-[0_0_30px_rgba(255,255,255,0.3)] flex items-center justify-center gap-3"
             >
               <div className="absolute inset-0 bg-gradient-to-r from-blue-400 to-cyan-400 translate-x-[-100%] group-hover/btn:translate-x-0 transition-transform duration-500" />
@@ -61,11 +61,12 @@ export default function Scene9Contact() {
         
         <div className="flex gap-10">
           {[
-            { Icon: Linkedin, href: "#" },
+            { Icon: Linkedin, href: "https://www.linkedin.com/in/muskan072024/", target: "_blank", rel: "noopener noreferrer" },
+            { Icon: Instagram, href: "https://www.instagram.com/brandkibaat_studio?igsh=MXE3ZHd1ZW44MHl4MA==", target: "_blank", rel: "noopener noreferrer" },
             { Icon: Dribbble, href: "#" },
             { Icon: Github, href: "#" }
-          ].map(({ Icon, href }, i) => (
-            <a key={i} href={href} className="hover:text-blue-500 hover:scale-150 transition-all duration-300">
+          ].map(({ Icon, href, target, rel }, i) => (
+            <a key={i} href={href} target={target} rel={rel} className="hover:text-blue-500 hover:scale-150 transition-all duration-300">
                <Icon className="w-5 h-5" />
             </a>
           ))}
