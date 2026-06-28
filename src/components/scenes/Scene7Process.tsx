@@ -77,19 +77,19 @@ export default function Scene7Process() {
             </p>
           </div>
 
-          <div className="relative h-48 perspective-1000">
+          <div className="relative h-[260px] sm:h-[200px] md:h-48 perspective-1000">
             {steps.map((step, index) => (
               <div
                 key={step.id} 
                 className={`absolute inset-0 transition-all duration-1000 ease-out transform ${index === activeStep ? 'opacity-100 translate-y-0 translate-z-0 scale-100 blur-0' : 'opacity-0 -translate-y-20 -translate-z-20 scale-90 blur-xl'}`}
               >
-                <div className="text-[10rem] font-black text-blue-500/10 absolute -z-10 -top-24 -left-12 select-none tracking-tighter animate-pulse">{step.id}</div>
-                <div className="bg-white/5 backdrop-blur-xl border border-white/10 p-8 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.5)]">
-                  <h3 className="text-3xl font-bold mb-3 flex items-center gap-3">
-                     <span className="w-2 h-8 bg-blue-500 rounded-full" />
+                <div className="text-[6rem] md:text-[10rem] font-black text-blue-500/10 absolute -z-10 -top-12 md:-top-24 -left-4 md:-left-12 select-none tracking-tighter animate-pulse">{step.id}</div>
+                <div className="bg-white/5 backdrop-blur-xl border border-white/10 p-5 md:p-8 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.5)]">
+                  <h3 className="text-xl md:text-3xl font-bold mb-3 flex items-center gap-3">
+                     <span className="w-1.5 h-6 md:w-2 md:h-8 bg-blue-500 rounded-full" />
                      {step.title}
                   </h3>
-                  <p className="text-gray-400 text-lg leading-relaxed font-light">{step.desc}</p>
+                  <p className="text-gray-400 text-sm md:text-lg leading-relaxed font-light">{step.desc}</p>
                 </div>
               </div>
             ))}

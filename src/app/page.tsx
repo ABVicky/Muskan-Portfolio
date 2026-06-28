@@ -46,20 +46,17 @@ export default function Home() {
     // Small delay to ensure dynamic components are in the DOM
     const timer = setTimeout(() => {
       const ctx = gsap.context(() => {
-          gsap.set('.warp-section', { opacity: 0, y: 30 });
+          gsap.set('.warp-section', { opacity: 0 });
           gsap.to('.warp-section', { 
             opacity: 1, 
-            y: 0, 
             duration: 1, 
-            stagger: 0.2,
+            stagger: 0.15,
             ease: "power3.out",
             scrollTrigger: {
               trigger: containerRef.current,
               start: "top center",
             },
             onComplete: () => {
-              // Vital: Clear transform to allow CSS 'position: fixed' (pinning) to work relative to viewport
-              gsap.set('.warp-section', { clearProps: "transform" });
               ScrollTrigger.refresh();
             }
           });
