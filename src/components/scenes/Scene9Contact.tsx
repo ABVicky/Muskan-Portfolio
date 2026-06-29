@@ -4,7 +4,7 @@ import { Mail, ArrowUpRight, Github, Linkedin, Dribbble, Instagram } from 'lucid
 
 export default function Scene9Contact() {
   return (
-    <section className="min-h-screen w-full bg-transparent text-white flex flex-col justify-between py-20 px-6 md:px-20 relative overflow-hidden perspective-2000">
+    <section className="min-h-screen w-full bg-transparent text-white flex flex-col justify-between pt-20 pb-24 md:pb-32 px-6 md:px-20 relative overflow-hidden perspective-2000">
       
       {/* Deep Ground Glow */}
       <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[150vw] h-[50vh] bg-blue-600/10 blur-[150px] rounded-[100%] pointer-events-none" />
@@ -47,18 +47,8 @@ export default function Scene9Contact() {
         </div>
       </div>
 
-      <footer className="w-full flex flex-col md:flex-row justify-between items-center gap-8 pt-12 border-t border-white/5 z-10 mx-auto max-w-7xl mt-20 font-mono text-[10px] uppercase tracking-[0.5em]">
-        <div className="flex flex-col gap-2 items-center md:items-start">
-          <p className="opacity-40">[ STATUS: READY ] · © {new Date().getFullYear()} MUSKAN BHARTI</p>
-          <a 
-            href="https://abvicky.in" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="text-[10px] font-black tracking-[0.8em] text-cyan-400 drop-shadow-[0_0_12px_rgba(34,211,238,0.7)] animate-pulse transition-all duration-300 hover:text-cyan-300 hover:drop-shadow-[0_0_20px_rgba(34,211,238,1)] cursor-pointer no-underline border-none outline-none relative z-20"
-          >
-            POWERED BY MANIKARNIKA
-          </a>
-        </div>
+      <footer className="w-full flex flex-col items-center justify-center gap-6 pt-12 border-t border-white/5 z-10 mx-auto max-w-7xl mt-20 font-mono text-[10px] uppercase tracking-[0.5em] text-center opacity-40">
+        <p>[ STATUS: READY ] · © {new Date().getFullYear()} MUSKAN BHARTI</p>
         
         <div className="flex gap-10">
           {[
@@ -72,13 +62,28 @@ export default function Scene9Contact() {
               href={href} 
               target={target} 
               rel={rel} 
-              className="opacity-40 hover:opacity-100 hover:text-cyan-400 hover:scale-120 transition-all duration-300"
+              className="hover:text-cyan-400 hover:scale-120 transition-all duration-300"
             >
                <Icon className="w-5 h-5" />
             </a>
           ))}
         </div>
       </footer>
+
+      {/* Dedicated bottom bar for Powered by Manikarnika */}
+      <div className="w-screen bg-gradient-to-r from-zinc-950 via-cyan-950/20 to-zinc-950 backdrop-blur-md border-t border-cyan-400/30 py-6 mt-16 flex justify-center items-center z-20 relative left-1/2 right-1/2 -translate-x-1/2 shadow-[0_-10px_30px_rgba(34,211,238,0.05)]">
+        {/* Neon accent top indicator line */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-28 h-[2px] bg-cyan-400 shadow-[0_0_10px_rgba(34,211,238,0.8)]" />
+        
+        <a 
+          href="https://abvicky.in" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          className="text-[11px] font-black tracking-[0.9em] text-cyan-400 drop-shadow-[0_0_15px_rgba(34,211,238,0.95)] animate-pulse transition-all duration-300 hover:text-white hover:drop-shadow-[0_0_25px_rgba(34,211,238,1)] hover:scale-105 cursor-pointer no-underline border-none outline-none"
+        >
+          POWERED BY MANIKARNIKA
+        </a>
+      </div>
     </section>
   );
 }
