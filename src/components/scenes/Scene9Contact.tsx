@@ -35,8 +35,9 @@ export default function Scene9Contact() {
             </a>
             
             <a 
-              href="/resume.pdf" 
+              href="https://docs.google.com/document/d/139hotI-5GpjLIUpqUjxI5Vtibb02Nm_t2hEZy1GPRZY/edit?usp=sharing" 
               target="_blank"
+              rel="noopener noreferrer"
               className="group/sec flex items-center justify-center border-2 border-white/10 px-6 py-4 md:px-12 md:py-6 rounded-full font-bold text-base md:text-xl hover:bg-white hover:text-black transition-all duration-500 gap-3"
             >
               <span>GET_RESUME</span>
