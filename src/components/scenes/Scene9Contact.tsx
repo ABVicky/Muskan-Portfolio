@@ -47,14 +47,14 @@ export default function Scene9Contact() {
         </div>
       </div>
 
-      <footer className="w-full flex flex-col md:flex-row justify-between items-center gap-8 pt-12 border-t border-white/5 z-10 mx-auto max-w-7xl mt-20 font-mono text-[10px] uppercase tracking-[0.5em] opacity-40">
+      <footer className="w-full flex flex-col md:flex-row justify-between items-center gap-8 pt-12 border-t border-white/5 z-10 mx-auto max-w-7xl mt-20 font-mono text-[10px] uppercase tracking-[0.5em]">
         <div className="flex flex-col gap-2 items-center md:items-start">
-          <p>[ STATUS: READY ] · © {new Date().getFullYear()} MUSKAN BHARTI</p>
+          <p className="opacity-40">[ STATUS: READY ] · © {new Date().getFullYear()} MUSKAN BHARTI</p>
           <a 
             href="https://abvicky.in" 
             target="_blank" 
             rel="noopener noreferrer"
-            className="text-[10px] font-black tracking-[0.8em] text-cyan-400 drop-shadow-[0_0_10px_rgba(34,211,238,0.5)] animate-pulse transition-all duration-300 hover:brightness-150 hover:drop-shadow-[0_0_15px_rgba(34,211,238,0.8)] cursor-pointer no-underline border-none outline-none"
+            className="text-[10px] font-black tracking-[0.8em] text-cyan-400 drop-shadow-[0_0_12px_rgba(34,211,238,0.7)] animate-pulse transition-all duration-300 hover:text-cyan-300 hover:drop-shadow-[0_0_20px_rgba(34,211,238,1)] cursor-pointer no-underline border-none outline-none relative z-20"
           >
             POWERED BY MANIKARNIKA
           </a>
@@ -67,7 +67,13 @@ export default function Scene9Contact() {
             { Icon: Dribbble, href: "#" },
             { Icon: Github, href: "#" }
           ].map(({ Icon, href, target, rel }, i) => (
-            <a key={i} href={href} target={target} rel={rel} className="hover:text-blue-500 hover:scale-150 transition-all duration-300">
+            <a 
+              key={i} 
+              href={href} 
+              target={target} 
+              rel={rel} 
+              className="opacity-40 hover:opacity-100 hover:text-cyan-400 hover:scale-120 transition-all duration-300"
+            >
                <Icon className="w-5 h-5" />
             </a>
           ))}
